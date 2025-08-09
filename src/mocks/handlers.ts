@@ -1,31 +1,7 @@
+import { ChatMessage, ChatStore } from "@/interfaces/chat.interface";
 import { getFileFromDB, saveFileToDB } from "@/utils/db";
 import { http, HttpResponse } from "msw";
 
-interface ChatMessage {
-  id: number;
-  user: string;
-  message: string;
-  fileId?: string;
-  fileType?: string;
-  time: string;
-}
-
-interface ChatStore {
-  chats: Record<string, ChatMessage[]>;
-  currentChatId: string | null;
-}
-
-// Conversor de File a Base64 (Data URL)
-async function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ===== Persistencia =====
 function loadStore(): ChatStore {
   if (typeof localStorage === "undefined") {
     return { chats: {}, currentChatId: null };
@@ -45,7 +21,6 @@ let messageId = 1;
 async function createMessage(user: string, message: string, file:File | null): Promise<ChatMessage> {
   let fileId: string | undefined;
   let fileType: string | undefined;
-
 
   if (file) {
     fileId = `${Date.now()}-${file.name}`;
@@ -72,7 +47,6 @@ const autoReplies = [
   "¡Claro que sí!"
 ];
 
-// ===== Handlers =====
 export const handlers = [
   // Obtener todos los chats
   http.get("/api/chats", () => {
@@ -159,7 +133,6 @@ export const handlers = [
     const message = formData.get("message") as string;
     const file = formData.get("file") as File | null;
 
-    //const { user, message, file } = await request.formData() as any;
     if (!store.currentChatId) return HttpResponse.json({ error: "No hay chat activo" }, { status: 400 });
 
     const newMsg = await createMessage(user, message, file);

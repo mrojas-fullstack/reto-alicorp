@@ -38,7 +38,6 @@ export function NavMain({
     },
   });
 
-  // Filtrar chats
   const filteredChats = Object.keys(store?.chats || {}).filter((chatId) => {
     const lastMessage =
       store?.chats[chatId]?.[store.chats[chatId].length - 1]?.message || "";

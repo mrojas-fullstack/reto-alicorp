@@ -58,14 +58,18 @@ export default function Chat({ currentChatId }: Props) {
         return <img src={msg.fileUrl} alt="Imagen adjunta" style={{ maxWidth: "200px", borderRadius: 8 }} />;
       }
       if (msg.fileType === "application/pdf") {
-        <a href={msg.fileUrl} target="_blank" download={`archivo-${msg.id}`} rel="noopener noreferrer" style={{ color: "#007bff" }}>
-          Descargar PDF
-        </a>
+        return(
+          <a href={msg.fileUrl} target="_blank" download={`archivo-${msg.id}`} rel="noopener noreferrer" style={{ color: "#007bff" }}>
+            Descargar PDF
+          </a>
+        )
       }
       if (msg.fileType === "video/mp4") {
-        <a href={msg.fileUrl} target="_blank" download={`archivo-${msg.id}`} rel="noopener noreferrer" style={{ color: "#007bff" }}>
-          Descargar Video
-        </a>
+        return(
+          <a href={msg.fileUrl} target="_blank" download={`archivo-${msg.id}`} rel="noopener noreferrer" style={{ color: "#007bff" }}>
+            Descargar Video
+          </a>
+        )
       }
       return (
         <a href={msg.fileUrl} target="_blank" download={`archivo-${msg.id}`} rel="noopener noreferrer" style={{ color: "#007bff" }}>
