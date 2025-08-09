@@ -12,7 +12,8 @@ import { NavUser } from "./nav-user"
 import { NavMain } from "./nav-main"
 import { NavHistory } from "./nav-history"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { ChatStore, createChat } from "@/services/chats";
+import { createChat } from "@/services/chats";
+import { ChatStore } from "@/interfaces/chat.interface"
 
 type Props = {
   store: ChatStore | undefined;
