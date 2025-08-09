@@ -1,5 +1,5 @@
 "use client"
-import { MessageCircleMore, Trash } from "lucide-react"
+import { MessageCircleDashed, MessageCircleMore, Trash } from "lucide-react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -99,9 +99,14 @@ export function NavHistory({
               </Dialog>
             </SidebarMenuItem>
           )): (
-            <p className="text-xs text-gray-600 px-2">
-              No se encontraron chats.
-            </p>
+            <SidebarMenuButton asChild>
+              <div>
+                <MessageCircleDashed />
+                <p className="text-xs text-gray-600 px-2">
+                  No se encontraron chats.
+                </p>
+              </div>
+            </SidebarMenuButton>
           )}
         </SidebarMenu>
       </SidebarGroupContent>
