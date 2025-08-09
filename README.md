@@ -10,9 +10,7 @@
   <h3 align="center">Chat MSW</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    Aplicativo tipo chat que permita a los usuarios realizar consultas autónomas sobre la empresa (organigrama, misión, visión, proyectos, etc.) y recibir respuestas generadas automáticamente.
     <br />
     <br />
   </p>
@@ -20,49 +18,40 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Tabla de Contenido</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#acerca-del-proyecto">Acerca del Proyecto</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#tecnologias">Tecnologias</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#instrucciones">Instrucciones</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#pre-requisitos">Pre requisitos</a></li>
+        <li><a href="#instalacion">Instalacion</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#uso">Uso</a></li>
+    <li><a href="#contacto">Contacto</a></li>
   </ol>
 </details>
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## Acerca del Proyecto
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Desarrollar una aplicación web con chat integrado, donde los usuarios puedan realizar consultas sobre la empresa, enviar archivos, revisar historiales y continuar conversaciones anteriores. Todo debe operar sobre una arquitectura moderna basada en Next.js 15 y stack de herramientas asociadas.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top"> ir arriba </a>)</p>
 
 
 
-### Built With
+### Tecnologias
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+El proyecto se desarrollo con las siguientes tecnologias:
 
 * [![Next][Next.js]][Next-url]
 * [![Typescript][Typescript]][Typescript-url]
@@ -70,59 +59,86 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [![Tailwind][Tailwind]][Tailwind-url]
 * [![SHADCN][SHADCN]][SHADCN-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top"> ir arriba </a>)</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Instrucciones
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### Pre requisitos
 
-This is an example of how to list things you need to use the software and how to install them.
+Instalación del gestor de paquetes pnpm
 * pnpm
   ```sh
   npm install -g pnpm@latest-10
   ```
 
-### Installation
+### Instalacion
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+Instalación y configuracion del proyecto
 
-1. Clone the repo
+1. Clonar el repositorio
    ```sh
    git clone https://github.com/mrojas-fullstack/reto-alicorp.git
    ```
-2. Create .env file
+2. Crear el archivo .env file
    ```sh
    NODE_ENV='development'
    ```
-3. Install PNPM packages
+3. Instalar los paquetes PNPM
    ```sh
    pnpm install
-   pnpm dev
+   pnpm run dev
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top"> ir arriba </a>)</p>
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Uso
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+El dashboard cuenta con un sidebar, donde tenemos:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+* Opciones principales
+  * Crear nuevo chat
+  * Buscar en chats
+* Historial
+  * Lista de chats
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Luego tenemos la sección donde se realiza la conversacion entre el servidor y el cliente.
+
+La aplicacion cuenta con las siguientes funcionalidades:
+
+* Chat Interactivo
+  * Los usuarios pueden iniciar un nuevo chat y realizar consultas de forma libre.
+  * Las respuestas serán generadas por una API externa simulada (mockeada con MSW).
+  * El usuario podrá adjuntar archivos:
+    * Imágenes (JPG, PNG): Se renderizan directamente en el chat.
+    * Videos (MP4) y documentos (PDF): Se muestran como enlaces para descarga.
+
+* Historial de Chats
+  * Visualización del historial completo de chats.
+  * Cada entrada del historial es accesible para ver todo el contenido anterior.
+  * Posibilidad de continuar una conversación desde donde se dejó.
+
+* Búsqueda en Historial
+  * El historial puede ser filtrado usando un buscador.
+  * El sistema mostrará resultados basados en coincidencias con el contenido textual de los mensajes.
+
+* Gestión de Conversaciones
+  * Los usuarios pueden eliminar cualquier conversación del historial.
+
+<p align="right">(<a href="#readme-top"> ir arriba </a>)</p>
 
 <!-- CONTACT -->
-## Contact
+## Contacto
 
 Miguel Rojas - [@mrojas](https://www.linkedin.com/in/miguel-rojas-a82614286/) - mrojas.fullstack@gmail.com
 
 Project Link: [https://github.com/mrojas-fullstack/reto-alicorp](https://github.com/mrojas-fullstack/reto-alicorp)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top"> ir arriba </a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -138,7 +154,7 @@ Project Link: [https://github.com/mrojas-fullstack/reto-alicorp](https://github.
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: public/vercel.svg
+[product-screenshot]: public/project.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [Typescript]: https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=for-the-badge

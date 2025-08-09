@@ -1,5 +1,5 @@
 "use client"
-import { Trash } from "lucide-react"
+import { MessageCircleMore, Trash } from "lucide-react"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -25,8 +25,10 @@ import { Button } from "./ui/button"
 
 export function NavHistory({
   history,
+  activeChatId,
 }: {
   history: any
+  activeChatId: string | undefined | null
 }) {
   const queryClient = useQueryClient();
 
@@ -53,8 +55,11 @@ export function NavHistory({
         <SidebarMenu>
           {history.map((chatId:any) => (
             <SidebarMenuItem key={chatId}>
-              <SidebarMenuButton asChild>
-                <span onClick={() => selectChatMutation.mutate(chatId)} className="cursor-pointer">{chatId}</span>
+              <SidebarMenuButton asChild isActive={chatId === activeChatId}>
+                <div onClick={() => selectChatMutation.mutate(chatId)} className="cursor-pointer">
+                  <MessageCircleMore />
+                  <span>{chatId}</span>
+                </div>
               </SidebarMenuButton>
               <Dialog>
                 <DialogTrigger asChild>

@@ -47,6 +47,18 @@ const autoReplies = [
   "¡Claro que sí!"
 ];
 
+const keywordResponses: Record<string, string> = {
+  hola: "¡Hola! 😊 ¿En qué puedo ayudarte?",
+  mision: "La misión es ofrecer soluciones innovadoras y de alta calidad que mejoren la vida de nuestros clientes, garantizando excelencia en el servicio, responsabilidad social y un crecimiento sostenible.",
+  vision: "La visión es ser reconocidos como líderes en nuestro sector, destacando por la innovación, la satisfacción del cliente y el impacto positivo en la comunidad.",
+  organigrama: "El organigrama de la empresa está encabezado por el Director General, responsable de la estrategia y dirección global, seguido por la Gerencia de Operaciones, que incluye al Jefe de Producción y Logística, Supervisores de Área, Técnicos y Personal Operativo. Le sigue la Gerencia de Marketing, conformada por el Coordinador de Publicidad, Diseñadores Gráficos y Community Managers. Finalmente, la Gerencia de Finanzas está compuesta por el Contador General y el Analista Financiero.",
+  proyectos: "Actualmente estamos trabajando en varios proyectos innovadores, incluyendo una nueva línea de productos ecológicos y una plataforma digital para mejorar la experiencia del cliente.",
+  contacto: "Puedes contactarnos a través de nuestro correo electrónico",
+  email: "Nos puedes escribir a contacto@chatswm.com",
+  telefono: "Nuestro número de teléfono es +51 987 654 321",
+  ubicacion: "Estamos ubicados en Av. Principal 123, Ciudad.",
+};
+
 export const handlers = [
   // Obtener todos los chats
   http.get("/api/chats", () => {
@@ -132,6 +144,7 @@ export const handlers = [
     const user = formData.get("user") as string;
     const message = formData.get("message") as string;
     const file = formData.get("file") as File | null;
+    let keyValidation = false;
 
     if (!store.currentChatId) return HttpResponse.json({ error: "No hay chat activo" }, { status: 400 });
 
@@ -148,9 +161,23 @@ export const handlers = [
       if (store.currentChatId) {
         store.chats[store.currentChatId] = store.chats[store.currentChatId].filter(m => m.message !== "___TYPING___");
         const reply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
-        const replyMsg = await createMessage("Servidor", reply, file);
-        store.chats[store.currentChatId].push(replyMsg);
+        const lowerMsg = newMsg?.message.toLowerCase();
+
+        for (const keyword in keywordResponses) {
+          if (lowerMsg.includes(keyword)) {
+            const keyMsg = await createMessage("Servidor", keywordResponses[keyword], file);
+            store.chats[store.currentChatId].push(keyMsg);
+            keyValidation = true;
+          }
+        }
+
+        if(!keyValidation) {
+          const replyMsg = await createMessage("Servidor", reply, file);
+          store.chats[store.currentChatId].push(replyMsg);
+        }
+
         saveStore(store);
+        keyValidation = false;
       }
     }, 1500);
 

@@ -3,6 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import Chat from "@/components/chat";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { fetchChats } from "@/services/chats";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +14,15 @@ export default function Home() {
     refetchInterval: 1000,
   }) as any;
 
-  if (isLoading) return <p>Cargando...</p>;
+  if (isLoading) return (
+    <div className="flex flex-col space-y-3 justify-center items-center h-screen">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
+      </div>
+    </div>
+  );
 
   return (
     <SidebarProvider>
