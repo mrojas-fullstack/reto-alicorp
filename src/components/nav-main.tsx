@@ -1,6 +1,5 @@
 "use client"
-
-import { type LucideIcon } from "lucide-react"
+import { Search, SquarePen } from "lucide-react"
 import {
   SidebarGroup,
   SidebarMenu,
@@ -12,73 +11,109 @@ import {
   DialogClose, 
   DialogContent, 
   DialogDescription, 
-  DialogFooter, 
   DialogHeader, 
   DialogTitle, 
   DialogTrigger 
 } from "./ui/dialog"
-import { Label } from "./ui/label"
 import { Input } from "./ui/input"
-import { Button } from "./ui/button"
+import { useState } from "react"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { selectChat } from "@/services/chats";
 
 export function NavMain({
-  items,
+  store,
+  onClick,
 }: {
-  items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+  onClick?: () => void
+  store?: any
 }) {
+  const queryClient = useQueryClient();
+  const [search, setSearch] = useState("");
+
+  const selectChatMutation = useMutation({
+    mutationFn: selectChat,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+      queryClient.invalidateQueries({ queryKey: ["messages"] });
+    },
+  });
+
+  // Filtrar chats
+  const filteredChats = Object.keys(store?.chats || {}).filter((chatId) => {
+    const lastMessage =
+      store?.chats[chatId]?.[store.chats[chatId].length - 1]?.message || "";
+    const term = search.toLowerCase();
+    return (
+      chatId.toLowerCase().includes(term) ||
+      lastMessage.toLowerCase().includes(term)
+    );
+  });
+
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.title}>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <div onClick={onClick} className="cursor-pointer">
+              <SquarePen />
+              <span>Nuevo chat</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
             <Dialog>
               <form>
                 <DialogTrigger asChild>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
-                    </a>
+                    <div className="cursor-pointer">
+                      <Search />
+                      <span>Buscar chats</span>
+                    </div>
                   </SidebarMenuButton>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogTitle>Buscar Chats</DialogTitle>
                     <DialogDescription>
-                      Make changes to your profile here. Click save when you&apos;re
-                      done.
+                      <Input 
+                        id="search" 
+                        name="search" 
+                        placeholder="Buscar chats..." 
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4">
-                    <div className="grid gap-3">
-                      <Label htmlFor="name-1">Name</Label>
-                      <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-                    </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="username-1">Username</Label>
-                      <Input id="username-1" name="username" defaultValue="@peduarte" />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button type="submit">Save changes</Button>
-                  </DialogFooter>
+                  {filteredChats.length === 0 ? (
+                      <p className="text-xs text-gray-600">
+                        No se encontraron chats.
+                      </p>
+                    ) : (
+                      filteredChats.map((chatId) => {
+                        const lastMessage = store?.chats[chatId]?.[store.chats[chatId].length - 1]?.message || "";
+                        return (
+                          <div key={chatId} className="flex justify-between items-center p-2 mb-2 rounded-md">
+                            <DialogClose asChild>
+                              <div
+                                className="flex-1 cursor-pointer"
+                                onClick={() => selectChatMutation.mutate(chatId)}
+                              >
+                                <div className="font-bold">{chatId}</div>
+                                {lastMessage && (
+                                  <div className="text-xs text-nowrap overflow-hidden overflow-ellipsis text-gray-600">
+                                    {lastMessage}
+                                  </div>
+                                )}
+                              </div>
+                            </DialogClose>
+                          </div>
+                        );
+                      })
+                    )}
                 </DialogContent>
               </form>
             </Dialog>
           </SidebarMenuItem>
-        ))}
       </SidebarMenu>
     </SidebarGroup>
   )

@@ -1,7 +1,5 @@
 "use client"
-
-import { Search, SquarePen, Bot } from "lucide-react"
-
+import { Bot } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -13,44 +11,28 @@ import {
 import { NavUser } from "./nav-user"
 import { NavMain } from "./nav-main"
 import { NavHistory } from "./nav-history"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { ChatStore, createChat } from "@/services/chats";
 
+type Props = {
+  store: ChatStore | undefined;
+};
 // Menu items.
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Nuevo chat",
-      url: "#",
-      icon: SquarePen,
-      isActive: true
-    },
-    {
-      title: "Buscar chats",
-      url: "#",
-      icon: Search,
-    }
-  ],
-  history: [
-    {
-      name: "Design Engineering",
-      url: "#",
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-    },
-    {
-      name: "Travel",
-      url: "#",
-    },
-  ],
+  }
 }
 
-export function AppSidebar() {
+export function AppSidebar({ store }: Props) {
+  const queryClient = useQueryClient();
+  const createChatMutation = useMutation({
+    mutationFn: createChat,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["chats"] }),
+  });
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -61,8 +43,8 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavHistory history={data.history} />
+        <NavMain onClick={() => createChatMutation.mutate()} store={store}/>
+        <NavHistory history={Object.keys(store?.chats || {})} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
