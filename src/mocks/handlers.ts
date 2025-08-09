@@ -53,8 +53,8 @@ const keywordResponses: Record<string, string> = {
   vision: "La visión es ser reconocidos como líderes en nuestro sector, destacando por la innovación, la satisfacción del cliente y el impacto positivo en la comunidad.",
   organigrama: "El organigrama de la empresa está encabezado por el Director General, responsable de la estrategia y dirección global, seguido por la Gerencia de Operaciones, que incluye al Jefe de Producción y Logística, Supervisores de Área, Técnicos y Personal Operativo. Le sigue la Gerencia de Marketing, conformada por el Coordinador de Publicidad, Diseñadores Gráficos y Community Managers. Finalmente, la Gerencia de Finanzas está compuesta por el Contador General y el Analista Financiero.",
   proyectos: "Actualmente estamos trabajando en varios proyectos innovadores, incluyendo una nueva línea de productos ecológicos y una plataforma digital para mejorar la experiencia del cliente.",
-  contacto: "Puedes contactarnos a través de nuestro correo electrónico",
-  email: "Nos puedes escribir a contacto@chatswm.com",
+  contacto: "Puedes contactarnos a través de nuestro correo electrónico, contacto@chatswm.com",
+  email: "Nos puedes escribir a info@chatswm.com",
   telefono: "Nuestro número de teléfono es +51 987 654 321",
   ubicacion: "Estamos ubicados en Av. Principal 123, Ciudad.",
 };

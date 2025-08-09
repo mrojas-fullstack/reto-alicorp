@@ -5,6 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { 
   Dialog, 
@@ -29,6 +30,7 @@ export function NavMain({
 }) {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const { setOpenMobile} = useSidebar();
 
   const selectChatMutation = useMutation({
     mutationFn: selectChat,
@@ -48,12 +50,19 @@ export function NavMain({
     );
   });
 
+  const handleNewChat = () => {
+    if (onClick) {
+      onClick();
+    }
+    setOpenMobile(false);
+  };
+
   return (
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton asChild>
-            <div onClick={onClick} className="cursor-pointer">
+            <div onClick={handleNewChat} className="cursor-pointer">
               <SquarePen />
               <span>Nuevo chat</span>
             </div>

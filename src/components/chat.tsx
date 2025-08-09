@@ -61,7 +61,7 @@ export default function Chat({ currentChatId }: Props) {
       ) : (
         <Meeting messages={messages} isLoading={isLoading}/>
       )}
-      <div className="flex items-center justify-center gap-2 w-full bg-primary/5 p-2 rounded-lg">
+      <div className="flex items-center justify-center gap-2 w-full bg-background p-2 rounded-lg">
         <Popover>
           <PopoverTrigger><Plus/></PopoverTrigger>
           <PopoverContent className="w-80">

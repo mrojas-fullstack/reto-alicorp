@@ -1,5 +1,5 @@
 "use client"
-import { Bot } from "lucide-react"
+import { Bot, PanelRightOpen } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { NavUser } from "./nav-user"
 import { NavMain } from "./nav-main"
@@ -16,6 +17,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createChat } from "@/services/chats";
 import { ChatStore } from "@/interfaces/chat.interface"
 import { Separator } from "./ui/separator"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 type Props = {
   store: ChatStore | undefined;
@@ -31,6 +33,8 @@ const data = {
 
 export function AppSidebar({ store }: Props) {
   const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
+  const { setOpenMobile} = useSidebar();
   const createChatMutation = useMutation({
     mutationFn: createChat,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["chats"] }),
@@ -44,7 +48,10 @@ export function AppSidebar({ store }: Props) {
             <SidebarMenuButton asChild>
               <div className="cursor-pointer flex items-center gap-2">
                 <Bot />
-                <span>SOLUTION TECH</span>
+                <span className="flex justify-between items-center w-full">
+                  SOLUTION TECH
+                  {isMobile && <PanelRightOpen className="w-4 h-4" onClick={() => setOpenMobile(false)}/>}
+                </span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

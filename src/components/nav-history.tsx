@@ -8,6 +8,7 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { 
   Dialog, 
@@ -31,6 +32,7 @@ export function NavHistory({
   activeChatId: string | undefined | null
 }) {
   const queryClient = useQueryClient();
+  const { setOpenMobile} = useSidebar();
 
   const selectChatMutation = useMutation({
     mutationFn: selectChat,
@@ -48,15 +50,26 @@ export function NavHistory({
     },
   });
 
+  const handleDeleteChat = (chatId: string) => {
+    deleteChatMutation.mutate(chatId);
+    setOpenMobile(false);
+  };
+
+  const handleHistoryChat = (chatId: string) => {
+    selectChatMutation.mutate(chatId)
+    setOpenMobile(false);
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Chats History</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {history.map((chatId:any) => (
+          { history.length > 0 ? 
+          history.map((chatId:any) => (
             <SidebarMenuItem key={chatId}>
               <SidebarMenuButton asChild isActive={chatId === activeChatId}>
-                <div onClick={() => selectChatMutation.mutate(chatId)} className="cursor-pointer">
+                <div onClick={() => handleHistoryChat(chatId)} className="cursor-pointer">
                   <MessageCircleMore />
                   <span>{chatId}</span>
                 </div>
@@ -79,13 +92,17 @@ export function NavHistory({
                         <Button variant="outline">Cancel</Button>
                       </DialogClose>
                       <DialogClose asChild>
-                        <Button onClick={() => deleteChatMutation.mutate(chatId)}>Eliminar {chatId}</Button>
+                        <Button onClick={() => handleDeleteChat(chatId)}>Eliminar {chatId}</Button>
                       </DialogClose>
                     </DialogFooter>
                   </DialogContent>
               </Dialog>
             </SidebarMenuItem>
-          ))}
+          )): (
+            <p className="text-xs text-gray-600 px-2">
+              No se encontraron chats.
+            </p>
+          )}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

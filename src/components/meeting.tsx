@@ -1,4 +1,5 @@
 import { ChatMessage } from "@/interfaces/chat.interface";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   messages: ChatMessage[] | undefined;
@@ -37,7 +38,13 @@ export default function Meeting({ messages, isLoading }: Props) {
   return(
     <div className="bg-muted/50 w-full h-full flex rounded-xl md:min-h-min p-10 flex-col justify-start gap-2">
       {isLoading  ? (
-        <p>Cargando...</p>
+        <div className="flex flex-col space-y-3 justify-start items-center h-screen">
+          <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
       ) : (
         messages?.map((msg, idx) => (
           <div
